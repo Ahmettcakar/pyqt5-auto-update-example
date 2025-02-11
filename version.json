@@ -1,7 +1,7 @@
 {
     "version": "1.0.0",
     "files": {
-        "main.py": "1.0.0",
+        "main.py": "1.0.1",
         "updater.py": "1.0.0"
     }
 }
