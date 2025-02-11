@@ -1,0 +1,7 @@
+{
+    "version": "1.0.0",
+    "files": {
+        "main.py": "yerel_hash_degeri",
+        "updater.py": "yerel_hash_degeri"
+    }
+}
