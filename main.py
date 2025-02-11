@@ -13,7 +13,7 @@ class MainWindow(QMainWindow):
         self.label = QLabel("Mevcut Sürüm: 1.0.0", self)
         self.update_btn = QPushButton("Güncelle", self)
         self.update_btn.clicked.connect(self.update_app)
-        
+        print("test")
         # Layout
         layout = QVBoxLayout()
         layout.addWidget(self.label)
