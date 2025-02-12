@@ -107,7 +107,7 @@ def download_updates():
                 download_url = f"{RAW_BASE_URL}{file_name}"
                 print(f"İndiriliyor: {file_name}")
 
-                response = requests.get(download_url)
+                response = requests.get(download_url, headers=headers)
                 if response.status_code == 200:
                     with open(file_name, "wb") as f:
                         f.write(response.content)
