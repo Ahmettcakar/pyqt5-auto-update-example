@@ -25,6 +25,8 @@ class MainWindow(QMainWindow):
         print("Deenem")
         # Widget'lar
         self.label = QLabel(f"Mevcut Sürüm: {self.current_version}", self)
+        self.label2 = QLabel("Güncelleme", self)
+        
         self.update_btn = QPushButton("Güncelle", self)
         self.update_btn.clicked.connect(self.update_app)
         # Layout
@@ -37,11 +39,11 @@ class MainWindow(QMainWindow):
 
     def update_app(self):
         if not download_updates():
-            self.label.setText("Güncelleme tamamlandı! Yeniden başlatın.")
+            self.label2.setText("Güncelleme tamamlandı! Yeniden başlatın.")
             self.current_version = get_current_version()
             self.label.setText(f"Mevcut Sürüm: {self.current_version}")
         else:
-            self.label.setText("Program zaten güncel")
+            self.label2.setText("Program zaten güncel")
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
