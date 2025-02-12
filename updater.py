@@ -15,7 +15,7 @@ GITHUB_API_URL = f"https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/content
 headers = {"Authorization": f"token {GITHUB_TOKEN}"}
 BRANCH = "main"
 RAW_BASE_URL = f"https://raw.githubusercontent.com/{REPO_OWNER}/{REPO_NAME}/{BRANCH}/"
-
+GITHUB_VERSION_URL = f"https://raw.githubusercontent.com/{REPO_OWNER}/{REPO_NAME}/{BRANCH}/version.json"
 
 def get_file_hash(file_path):
     """Dosyanın SHA-256 hash'ini hesaplar."""
@@ -30,152 +30,76 @@ print("main.py SHA:", get_file_hash("main.py"))
 print("updater.py SHA:", get_file_hash("updater.py"))
 
 
-
-def check_for_updates():
-    """GitHub'daki dosyalarla yerel dosyaları karşılaştırır."""
-    try:
-        # Yerel sürüm bilgisini oku
-        with open("version.json", "r") as f:
-            local_version = json.load(f)
-
-        # GitHub'dan dosya listesini al
-        response = requests.get(GITHUB_API_URL, headers=headers)
-        if response.status_code != 200:
-            return False
-
-        remote_files = response.json()
-        update_available = False
-
-        for file in remote_files:
-            if file["name"] == "version.json":
-                continue  # version.json'ı atla
-
-            file_name = file["name"]
-            remote_hash = file["sha"]
-            local_hash = local_version["files"].get(file_name, "")
-
-            if remote_hash != local_hash:
-                print(f"{file_name} dosyası güncellenecek.")
-                update_available = True
-
-        return update_available
-
-    except Exception as e:
-        print(f"Hata: {e}")
-        return False
-
-
-
-
 def get_file_hash(file_path):
     """Dosyanın SHA-256 hash'ini hesaplar."""
     sha256 = hashlib.sha256()
-    with open(file_path, "rb") as f:
-        while chunk := f.read(4096):
-            sha256.update(chunk)
-    return sha256.hexdigest()
-
-def download_updates():
-    """Güncellenen dosyaları indir ve yerel version.json dosyasını güncelle."""
-    try:
-        response = requests.get(GITHUB_API_URL, headers=headers)
-        if response.status_code != 200:
-            print(
-                f"Hata! GitHub API Yanıtı: {response.status_code} - {response.text}")
-            return
-
-        remote_files = response.json()
-
-        # Yeni sürüm bilgisi için geçici bir sözlük
-        new_version = {"version": "1.0.1", "files": {}}
-
-        for file in remote_files:
-            file_name = file.get("name")
-            if file_name == "version.json":
-                continue  # version.json'ı indirme, sadece güncelle
-
-            # Doğru indirme URL'sini oluştur
-            download_url = f"{RAW_BASE_URL}{file_name}"
-            # Hangi dosyanın indirildiğini görmek için
-            print(f"İndiriliyor: {download_url}")
-
-            # Dosyayı indir
-            response = requests.get(download_url)
-            if response.status_code == 200:
-                with open(file_name, "wb") as f:
-                    f.write(response.content)
-
-                # Yeni dosyanın SHA hash'ini hesapla ve version.json'a ekle
-                new_version["files"][file_name] = get_file_hash(file_name)
-            else:
-                print(
-                    f"Dosya indirilemedi: {file_name}, Hata kodu: {response.status_code}")
-
-        # Güncellenmiş version.json'ı kaydet
-        with open("version.json", "w") as f:
-            json.dump(new_version, f, indent=4)
-
-        print("Güncelleme tamamlandı!")
-
-    except Exception as e:
-        print(f"İndirme hatası: {e}")
-
-
-def get_file_hash(file_path):
-    """Dosyanın SHA-256 hash'ini hesaplar."""
-    sha256 = hashlib.sha256()
+    if not os.path.exists(file_path):
+        return None  # Dosya yoksa None döndür
     with open(file_path, "rb") as f:
         while chunk := f.read(4096):
             sha256.update(chunk)
     return sha256.hexdigest()
 
 def load_local_version():
-    """Mevcut version.json dosyasını oku."""
+    """Yerel version.json dosyasını oku."""
     try:
         with open("version.json", "r") as f:
             return json.load(f)
     except (FileNotFoundError, json.JSONDecodeError):
         return {"version": "Bilinmiyor", "files": {}}
 
-def download_updates():
-    """Güncellenen dosyaları indir ve yerel version.json dosyasını doğru şekilde güncelle."""
+def load_remote_version():
+    """GitHub’daki version.json dosyasını indir ve oku."""
     try:
-        response = requests.get(GITHUB_API_URL, headers=headers)
-        if response.status_code != 200:
-            print(f"Hata! GitHub API Yanıtı: {response.status_code} - {response.text}")
-            return
-        
-        remote_files = response.json()
-        
-        # Mevcut version.json dosyasını oku
-        local_version = load_local_version()
-        new_version = {"version": "1.0.1", "files": local_version["files"].copy()}  # Önceki bilgileri koru
-        
-        for file in remote_files:
-            file_name = file.get("name")
-            if file_name == "version.json":
-                continue  # version.json'ı indirme, sadece güncelle
-            
-            # Doğru indirme URL'sini oluştur
-            download_url = f"{RAW_BASE_URL}{file_name}"
-            print(f"İndiriliyor: {download_url}")
-
-            # Dosyayı indir
-            response = requests.get(download_url)
-            if response.status_code == 200:
-                with open(file_name, "wb") as f:
-                    f.write(response.content)
-
-                # Yeni dosyanın SHA hash'ini hesapla ve version.json'a ekle
-                new_version["files"][file_name] = get_file_hash(file_name)
-            else:
-                print(f"Dosya indirilemedi: {file_name}, Hata kodu: {response.status_code}")
-
-        # Güncellenmiş version.json'ı kaydet
-        with open("version.json", "w") as f:
-            json.dump(new_version, f, indent=4)
-        
-        print("Güncelleme tamamlandı!")
-
+        response = requests.get(GITHUB_VERSION_URL, headers=headers)
+        if response.status_code == 200:
+            return response.json()
+        else:
+            print(f"Hata! GitHub'daki version.json alınamadı. Status Code: {response.status_code}")
+            return None
     except Exception as e:
         print(f"İndirme hatası: {e}")
+        return None
+
+def download_updates():
+    """Sadece SHA değişen dosyaları indir ve version.json'u güncelle."""
+    try:
+        remote_version = load_remote_version()
+        if not remote_version:
+            print("Güncelleme kontrolü başarısız oldu.")
+            return
+        
+        local_version = load_local_version()
+        new_version = {"version": remote_version["version"], "files": local_version["files"].copy()}  # Önceki bilgileri koru
+        
+        guncel_mi=True
+        for file_name, remote_hash in remote_version["files"].items():
+            local_hash = local_version["files"].get(file_name, "")
+
+            # Eğer SHA değerleri farklıysa veya dosya yoksa, güncelle
+            if remote_hash != local_hash:
+                guncel_mi=False
+                download_url = f"{RAW_BASE_URL}{file_name}"
+                print(f"İndiriliyor: {file_name}")
+
+                response = requests.get(download_url)
+                if response.status_code == 200:
+                    with open(file_name, "wb") as f:
+                        f.write(response.content)
+
+                    # Yeni dosyanın SHA hash'ini hesapla ve version.json'a ekle
+                    new_version["files"][file_name] = get_file_hash(file_name)
+                else:
+                    print(f"Dosya indirilemedi: {file_name}, Hata kodu: {response.status_code}")
+        if not guncel_mi: 
+            # Güncellenmiş version.json'ı kaydet
+            with open("version.json", "w") as f:
+                json.dump(new_version, f, indent=4)
+            
+            return False
+        else:
+            return True
+            
+
+    except Exception as e:
+        print(f"İndirme hatası: {e}") 

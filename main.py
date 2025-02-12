@@ -27,7 +27,6 @@ class MainWindow(QMainWindow):
         self.label = QLabel(f"Mevcut Sürüm: {self.current_version}", self)
         self.update_btn = QPushButton("Güncelle", self)
         self.update_btn.clicked.connect(self.update_app)
-        print("test")
         # Layout
         layout = QVBoxLayout()
         layout.addWidget(self.label)
@@ -38,11 +37,12 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(container)
 
     def update_app(self):
-        if check_for_updates():
-            download_updates()
+        if not download_updates():
             self.label.setText("Güncelleme tamamlandı! Yeniden başlatın.")
             self.current_version = get_current_version()
             self.label.setText(f"Mevcut Sürüm: {self.current_version}")
+        else:
+            self.label.setText("Program zaten güncel")
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
