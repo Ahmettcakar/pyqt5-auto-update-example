@@ -1,7 +1,18 @@
 import sys
+import json
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QVBoxLayout, QWidget
-
 from updater import check_for_updates, download_updates
+
+def get_current_version():
+    """version.json dosyasından mevcut sürümü okur."""
+    try:
+        with open("version.json", "r") as f:
+            version_data = json.load(f)
+        return version_data.get("version", "Bilinmeyen Sürüm")
+    except FileNotFoundError:
+        return "Version Dosyası Yok"
+    except json.JSONDecodeError:
+        return "Hatalı JSON Formatı"
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -9,8 +20,11 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("PyQt5 Güncelleme Örneği")
         self.setGeometry(100, 100, 300, 200)
         
+        # Mevcut sürümü oku
+        self.current_version = get_current_version()
+
         # Widget'lar
-        self.label = QLabel("Mevcut Sürüm: 1.0.0", self)
+        self.label = QLabel(f"Mevcut Sürüm: {self.current_version}", self)
         self.update_btn = QPushButton("Güncelle", self)
         self.update_btn.clicked.connect(self.update_app)
         
@@ -27,6 +41,8 @@ class MainWindow(QMainWindow):
         if check_for_updates():
             download_updates()
             self.label.setText("Güncelleme tamamlandı! Yeniden başlatın.")
+            self.current_version = get_current_version()
+            self.label.setText(f"Mevcut Sürüm: {self.current_version}")
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
