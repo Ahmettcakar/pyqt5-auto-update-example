@@ -20,14 +20,14 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("PyQt5 Güncelleme Örneği")
         self.setGeometry(100, 100, 300, 200)
         
-        # Mevcut sürümü oku
+        # Mevcut sürümü  oku
         self.current_version = get_current_version()
 
         # Widget'lar
         self.label = QLabel(f"Mevcut Sürüm: {self.current_version}", self)
         self.update_btn = QPushButton("Güncelle", self)
         self.update_btn.clicked.connect(self.update_app)
-        print("test")
+        print("yeni bir commiyt değişiklik algılama")
         # Layout
         layout = QVBoxLayout()
         layout.addWidget(self.label)
