@@ -17,17 +17,17 @@ BRANCH = "main"
 RAW_BASE_URL = f"https://raw.githubusercontent.com/{REPO_OWNER}/{REPO_NAME}/{BRANCH}/"
 
 
-# def get_file_hash(file_path):
-#     """Dosyanın SHA-256 hash'ini hesaplar."""
-#     sha256 = hashlib.sha256()
-#     with open(file_path, "rb") as f:
-#         while chunk := f.read(4096):
-#             sha256.update(chunk)
-#     return sha256.hexdigest()
+def get_file_hash(file_path):
+    """Dosyanın SHA-256 hash'ini hesaplar."""
+    sha256 = hashlib.sha256()
+    with open(file_path, "rb") as f:
+        while chunk := f.read(4096):
+            sha256.update(chunk)
+    return sha256.hexdigest()
 
-# # Örnek kullanım
-# print("main.py SHA:", get_file_hash("main.py"))
-# print("updater.py SHA:", get_file_hash("updater.py"))
+# Örnek kullanım
+print("main.py SHA:", get_file_hash("main.py"))
+print("updater.py SHA:", get_file_hash("updater.py"))
 
 
 
