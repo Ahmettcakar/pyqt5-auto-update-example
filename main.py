@@ -1,7 +1,7 @@
 import sys
 import json
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QVBoxLayout, QWidget
-from updater import check_for_updates, download_updates
+from updater import  download_updates
 
 def get_current_version():
     """version.json dosyasından mevcut sürümü okur."""
@@ -31,7 +31,6 @@ class MainWindow(QMainWindow):
         layout = QVBoxLayout()
         layout.addWidget(self.label)
         layout.addWidget(self.update_btn)
-        print("test")
         container = QWidget()
         container.setLayout(layout)
         self.setCentralWidget(container)
