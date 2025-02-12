@@ -20,7 +20,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("PyQt5 Güncelleme Örneği")
         self.setGeometry(100, 100, 300, 200)
         
-        # Mevcut sürümü oku
+        # Mevcut sürümü  oku
         self.current_version = get_current_version()
 
         # Widget'lar
