@@ -22,7 +22,6 @@ class MainWindow(QMainWindow):
         
         # Mevcut sürümü  oku 
         self.current_version = get_current_version()
-        print("Deenem")
         # Widget'lar
         self.label = QLabel(f"Mevcut Sürüm: {self.current_version}", self)
         self.label2 = QLabel("Güncelleme", self)
@@ -32,6 +31,8 @@ class MainWindow(QMainWindow):
         # Layout
         layout = QVBoxLayout()
         layout.addWidget(self.label)
+        layout.addWidget(self.label2)
+        
         layout.addWidget(self.update_btn)
         container = QWidget()
         container.setLayout(layout)
