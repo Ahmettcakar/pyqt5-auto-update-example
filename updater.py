@@ -27,7 +27,6 @@ def get_file_hash(file_path):
             sha256.update(chunk)
     return sha256.hexdigest()
 
-
 # Örnek kullanım
 print("main.py SHA:", get_file_hash("main.py"))
 print("updater.py SHA:", get_file_hash("updater.py"))
