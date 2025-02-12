@@ -25,7 +25,7 @@ class MainWindow(QMainWindow):
         # Widget'lar
         self.label = QLabel(f"Mevcut Sürüm: {self.current_version}", self)
         self.label2 = QLabel("Güncelleme", self)
-        print("asdasd")
+        print("asdas23123123d")
         self.update_btn = QPushButton("Güncelle", self)
         self.update_btn.clicked.connect(self.update_app)
         # Layout
