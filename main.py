@@ -32,7 +32,7 @@ class MainWindow(QMainWindow):
         layout = QVBoxLayout()
         layout.addWidget(self.label)
         layout.addWidget(self.update_btn)
-        
+        print("test")
         container = QWidget()
         container.setLayout(layout)
         self.setCentralWidget(container)
