@@ -5,7 +5,7 @@ a = Analysis(
     ['main.py'],
     pathex=[],
     binaries=[],
-    datas=[('updater.py', 'dist/'), ('version.json', 'dist/')],
+    datas=[('updater.py', 'dist/'), ('app.log', 'dist/'), ('shaupdate.py', 'dist/'), ('version.json', 'dist/')],
     hiddenimports=['updater'],
     hookspath=[],
     hooksconfig={},
