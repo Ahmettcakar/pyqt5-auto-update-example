@@ -26,7 +26,7 @@ def get_base_dir():
 
 
 BASE_DIR = get_base_dir()
-print("test")
+print("test guncel")
 VERSION_FILE = os.path.join(BASE_DIR, "version.json")
 LOG_FILE = os.path.join(BASE_DIR, "log.txt")
 
