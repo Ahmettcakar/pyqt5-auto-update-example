@@ -21,14 +21,21 @@ GITHUB_VERSION_URL = f"https://raw.githubusercontent.com/{REPO_OWNER}/{REPO_NAME
 headers = {"Authorization": f"token {GITHUB_TOKEN}"}
 
 
+# LOG DOSYASI YOLUNU EXE'NİN BULUNDUĞU KLASÖRE AYARLA
 def get_base_dir():
     """Çalışan dizini bulur (exe veya python ortamına göre)"""
     if getattr(sys, 'frozen', False):  # Eğer .exe olarak çalışıyorsa
         return os.path.dirname(sys.executable)  # .exe'nin olduğu klasör
     return os.path.dirname(os.path.abspath(__file__))  # Normal Python dizini
 
-
 BASE_DIR = get_base_dir()
+LOG_FILE = os.path.join(BASE_DIR, "app.log")  # Log dosyası exe'nin olduğu klasörde olacak
+
+# LOGGING AYARI
+logging.basicConfig(filename=LOG_FILE, level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+
+logging.info("🚀 Güncelleyici başlatıldı. Log dosyası oluşturuldu!")
+
 VERSION_FILE = os.path.join(BASE_DIR, "version.json")
 
 
