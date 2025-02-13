@@ -1,5 +1,6 @@
 import sys
 import json
+import os
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QVBoxLayout, QWidget
 from updater import  download_updates
 
@@ -37,12 +38,16 @@ class MainWindow(QMainWindow):
         container = QWidget()
         container.setLayout(layout)
         self.setCentralWidget(container)
-
+    def restart_program():
+        """Programı yeniden başlatır."""
+        python = sys.executable
+        os.execl(python, python, *sys.argv)
     def update_app(self):
         if not download_updates():
             self.label2.setText("Güncelleme tamamlandı! Yeniden başlatın.")
             self.current_version = get_current_version()
             self.label.setText(f"Mevcut Sürüm: {self.current_version}")
+            self.restart_program()  # Programı yeniden başlat
         else:
             self.label2.setText("Program zaten güncel")
     
