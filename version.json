@@ -1,7 +1,7 @@
 {
     "version": "1.0.0",
     "files": {
-        "main.py": "43b6a64d3890d55f20bdf8969b5e8431b7b5bb2d3b2e69144736aca2e6251f61",
-        "updater.py": "068f2899a30ed430471d46783c6ce8c7c5b6975e34e624cf1a956f30abd48292"
+        "main.py": "3c7c587d69b8bd2752242293e560820103f33ca5f00a2ff0eccae017087a2c44",
+        "updater.py": "3671333a52d17f986260d53cf2530404f489e471a8ec3c1a3a77a0026c40d636"
     }
 }
