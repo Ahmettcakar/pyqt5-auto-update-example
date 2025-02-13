@@ -20,7 +20,7 @@ GITHUB_VERSION_URL = f"https://raw.githubusercontent.com/{REPO_OWNER}/{REPO_NAME
 
 headers = {"Authorization": f"token {GITHUB_TOKEN}"}
 
-
+print("test")
 # LOG DOSYASI YOLUNU EXE'NİN BULUNDUĞU KLASÖRE AYARLA
 def get_base_dir():
     """Çalışan dizini bulur (exe veya python ortamına göre)"""
