@@ -24,7 +24,7 @@ class MainWindow(QMainWindow):
         self.current_version = get_current_version()
         # Widget'lar
         self.label = QLabel(f"Mevcut Sürüm: {self.current_version}", self)
-        self.label2 = QLabel("Deneme2", self)
+        self.label2 = QLabel("Deneme", self)
         
         self.update_btn = QPushButton("Güncelle", self)
         self.update_btn.clicked.connect(self.update_app)
