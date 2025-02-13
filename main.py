@@ -45,12 +45,9 @@ class MainWindow(QMainWindow):
             self.label.setText(f"Mevcut Sürüm: {self.current_version}")
         else:
             self.label2.setText("Program zaten güncel")
-
-def main():
+    
+if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
     sys.exit(app.exec_())
-    
-if __name__ == "__main__":
-    main()
