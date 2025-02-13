@@ -24,7 +24,7 @@ class MainWindow(QMainWindow):
         self.current_version = get_current_version()
         # Widget'lar
         self.label = QLabel(f"Mevcut Sürüm: {self.current_version}", self)
-        self.label2 = QLabel("test ", self)
+        self.label2 = QLabel("merhabaa AHMETsa ", self)
         
         self.update_btn = QPushButton("Güncelle", self)
         self.update_btn.clicked.connect(self.update_app)
@@ -46,11 +46,8 @@ class MainWindow(QMainWindow):
         else:
             self.label2.setText("Program zaten güncel")
 
-def main():
+if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
     sys.exit(app.exec_())
-    
-if __name__ == "__main__":
-    main()
